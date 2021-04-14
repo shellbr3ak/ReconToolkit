@@ -70,7 +70,8 @@ function install_seclist {
 	rm SecList.zip
 }
 
-## 11. install Banner {
+## 11. install Banner 
+function install banner {
 	sudo apt install figlet
 }
 
@@ -84,3 +85,4 @@ install_sublist3r
 install_lookup
 install_amass
 install_seclist
+install banner

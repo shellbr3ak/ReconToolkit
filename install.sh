@@ -37,7 +37,7 @@ function install_httprobe {
 ## 6. install subfinder
 function install_subfinder {
 	wget https://github.com/projectdiscovery/subfinder/releases/download/v2.4.7/subfinder_2.4.7_linux_amd64.tar.gz
-	tar subfinder_2.4.7_linux_amd64.tar.gz
+	tar zxvf subfinder_2.4.7_linux_amd64.tar.gz
 	mv subfinder /usr/bin
 	rm subfinder_2.4.7_linux_amd64.tar.gz
 }

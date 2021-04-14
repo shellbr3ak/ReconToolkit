@@ -71,7 +71,7 @@ function install_seclist {
 }
 
 ## 11. install Banner 
-function install banner {
+function install_banner {
 	sudo apt install figlet
 }
 
@@ -85,4 +85,4 @@ install_sublist3r
 install_lookup
 install_amass
 install_seclist
-install banner
+install_banner

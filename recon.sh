@@ -3,35 +3,35 @@
 # Run the tools
 function recon {
         mkdir $domain
-	#echo -e "\033[1;34m[!]\033[0m Enumerating Subdomains"
-	#echo -e "\033[1;33m[+]\033[0m Running AssetFinder"
-        #assetfinder -subs-only $domain | tee $domain/assetfinder.txt &>/dev/null
-        #echo -e "\033[1;33m[+]\033[0m Running Amass"
-	#amass enum -d $domain -o $domain/amass.txt &>/dev/null
-	#echo -e "\033[1;33m[+]\033[0m Running Sublist3r"
-        #sublist3r -d $domain -o $domain/sublister.txt &>/dev/null
-	#echo -e "\033[1;33m[+]\033[0m Running SubFinder"
-        #subfinder -d $domain -o $domain/subfinder.txt &>/dev/null
-	#echo -e "\033[1;33m[+]\033[0m Running GoBuster"
-        #gobuster dns -d $domain -w /opt/SecLists/Discovery/DNS/subdomains-top1million-110000.txt -o $domain/gobuster-1.txt -t 60 &>/dev/null
-	#echo -e "\033[1;33m[+]\033[0m Running GoBuster2"
-        #gobuster dns -d $domain -w /opt/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt -o $domain/gobuster-2.txt -t 60 &>/dev/null
-	#echo -e "\033[1;33m[+]\033[0m Running Aquatone-Discover"
-	#aquatone-discover -d $domain
+	echo -e "\033[1;34m[!]\033[0m Enumerating Subdomains"
+	echo -e "\033[1;33m[+]\033[0m Running AssetFinder"
+        assetfinder -subs-only $domain | tee $domain/assetfinder.txt &>/dev/null
+        echo -e "\033[1;33m[+]\033[0m Running Amass"
+	amass enum -d $domain -o $domain/amass.txt &>/dev/null
+	echo -e "\033[1;33m[+]\033[0m Running Sublist3r"
+        sublist3r -d $domain -o $domain/sublister.txt &>/dev/null
+	echo -e "\033[1;33m[+]\033[0m Running SubFinder"
+        subfinder -d $domain -o $domain/subfinder.txt &>/dev/null
+	echo -e "\033[1;33m[+]\033[0m Running GoBuster"
+        gobuster dns -d $domain -w /opt/SecLists/Discovery/DNS/subdomains-top1million-110000.txt -o $domain/gobuster-1.txt -t 60 &>/dev/null
+	echo -e "\033[1;33m[+]\033[0m Running GoBuster2"
+        gobuster dns -d $domain -w /opt/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt -o $domain/gobuster-2.txt -t 60 &>/dev/null
+	echo -e "\033[1;33m[+]\033[0m Running Aquatone-Discover"
+	aquatone-discover -d $domain
 	echo -e "\033[1;33m[+]\033[0m Crawling SecurityTrails"
 	curl https://securitytrails.com/list/apex_domain/$domain -o $domain/curl_subdomains.txt &>/dev/null
 }
 
 # Filter out results
 filter(){
-	#echo -e "\033[1;34m[!]\033[0m Filtering The Results"
-        #cat $domain/gobuster-1.txt | sed 's/Found:\ //g' | grep -Ev '[A-Z]' > $domain/gobuster_1.txt
-        #cat $domain/gobuster-2.txt | sed 's/Found:\ //g' | grep -Ev '[A-Z]' > $domain/gobuster_2.txt
-	#rm $domain/gobuster-*
-        #cat $domain/sublister.txt  | sed 's/<BR>/\r\n/g' > $domain/sublist3r.txt
-	#rm $domain/sublister.txt
-	#cat ~/aquatone/$domain/hosts.txt| awk -F ',' '{print $1}' | sed 's/\.$//g' >  $domain/aquatone_hosts.txt
-	#cat $domain/* | sort -ibu > $domain/all_subdomains.txt
+	echo -e "\033[1;34m[!]\033[0m Filtering The Results"
+        cat $domain/gobuster-1.txt | sed 's/Found:\ //g' | grep -Ev '[A-Z]' > $domain/gobuster_1.txt
+        cat $domain/gobuster-2.txt | sed 's/Found:\ //g' | grep -Ev '[A-Z]' > $domain/gobuster_2.txt
+	rm $domain/gobuster-*
+        cat $domain/sublister.txt  | sed 's/<BR>/\r\n/g' > $domain/sublist3r.txt
+	rm $domain/sublister.txt
+	cat ~/aquatone/$domain/hosts.txt| awk -F ',' '{print $1}' | sed 's/\.$//g' >  $domain/aquatone_hosts.txt
+	cat $domain/* | sort -ibu > $domain/all_subdomains.txt
 	cat $domain/curl_subdomains.txt | grep -ohE "\w+\.$domain" | sort -ibu > $domain/curl_filtered_subdomains.txt
 	rm $domain/curl_subdomains.txt
 }
@@ -61,9 +61,9 @@ if [[ ! -z $1 ]]; then
 	figlet SOCRadar-Recon
         recon $domain
         filter
-        #check_active_domains
-	#do_probe
-	#check_subdomain_takeover
+        check_active_domains
+	do_probe
+	check_subdomain_takeover
 else
         echo -e "Usage: ./script domain.com"
 fi
